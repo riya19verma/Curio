@@ -1,7 +1,5 @@
-// ============================================================
-// CURIO — main.js
+
 // Navbar interactions, greeting, breaking news ticker
-// ============================================================
 
 /* ── Greeting based on time ──────────────────────── */
 function setGreeting() {
