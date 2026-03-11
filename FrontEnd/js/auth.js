@@ -1,8 +1,7 @@
-// ============================================================
-// CURIO — auth.js
+
 // Login & Register modal open/close, particle animation
 // (No backend — UI only for now)
-// ============================================================
+
 
 /* ── Spawn floating particles in modal header ─────── */
 function spawnParticles(containerId) {
