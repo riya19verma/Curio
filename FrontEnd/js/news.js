@@ -1,7 +1,5 @@
-// ============================================================
-// CURIO — news.js
+
 // Top-10 slider, article modal, show-more, category filter
-// ============================================================
 
 /* ── News data (mock — replace with API later) ───── */
 const NEWS = [
