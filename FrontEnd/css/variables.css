@@ -1,0 +1,72 @@
+/* ============================================================
+   CURIO — variables.css
+   Global design tokens: colors, fonts, spacing, animations
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* Brand palette */
+  --brown-deep:  #AD8B73;
+  --brown-mid:   #CEAB93;
+  --brown-light: #E3CAA5;
+  --cream:       #FFFBE9;
+  --dark:        #2C1A0E;
+  --text:        #3D2B1A;
+  --muted:       #8A6E58;
+  --white:       #ffffff;
+
+  /* Validity colors */
+  --valid-high: #3a8f5c;
+  --valid-mid:  #c97d20;
+  --valid-low:  #b43c3c;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 12px rgba(173,139,115,0.13);
+  --shadow-md: 0 8px 40px rgba(173,139,115,0.18);
+  --shadow-lg: 0 24px 64px rgba(44,26,14,0.22);
+
+  /* Radius */
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   20px;
+  --r-xl:   28px;
+  --r-full: 9999px;
+
+  /* Fonts */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Transitions */
+  --t-fast: 0.15s ease;
+  --t-base: 0.25s ease;
+  --t-slow: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html  { scroll-behavior: smooth; font-size: 16px; }
+body  { font-family: var(--font-body); background: var(--cream); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+a     { text-decoration: none; color: inherit; }
+img   { max-width: 100%; display: block; }
+button, input, select, textarea { font-family: var(--font-body); }
+button { cursor: pointer; }
+ul, ol { list-style: none; }
+
+/* ── Shared animations ──────────────────────────── */
+@keyframes fadeUp    { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn    { from { opacity:0; } to { opacity:1; } }
+@keyframes slideDown { from { transform:translateY(-100%); opacity:0; } to { transform:translateY(0); opacity:1; } }
+@keyframes pulse     { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+@keyframes floatBlob { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(16px,-16px) scale(1.04)} }
+@keyframes bounceY   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+@keyframes popIn     { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes shimmer   { to{transform:translateX(100%)} }
+@keyframes spin      { to{transform:rotate(360deg)} }
+@keyframes authFloat {
+  0%  { transform:translateY(60px) scale(.8); opacity:0; }
+  20% { opacity:.13; }
+  80% { opacity:.08; }
+  100%{ transform:translateY(-80px) scale(1.1); opacity:0; }
+}
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }

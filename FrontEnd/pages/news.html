@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curio — News Feed</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/news.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+  <link rel="stylesheet" href="../css/modals.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">Curi<span>o</span></a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="news.html" style="color:var(--brown-deep)">News</a></li>
+    <li><a href="#" data-open-quiz>Quiz</a></li>
+    <li><a href="#" onclick="toggleChat()">Chatbot</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <button class="btn-nav-ghost" data-open-login>Login</button>
+    <button class="btn-nav-filled" data-open-register>Get Started</button>
+    <button class="nav-avatar" id="avatarBtn" title="My Profile" aria-label="Open user profile">🦊</button>
+  </div>
+</nav>
+
+<!-- Breaking news ticker -->
+<div class="news-ticker" aria-label="Breaking news">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-label">Breaking</span>UN signs historic climate accord — net-zero by 2040</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>SpaceX Starship completes first orbital test flight</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>RBI cuts repo rate to 6.25% — lowest in 3 years</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>India wins Test series against Australia 3-1</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>OpenAI releases GPT-5 with autonomous tool use</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Parliament passes Digital India Bill 2025</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item"><span class="ticker-label">Breaking</span>UN signs historic climate accord — net-zero by 2040</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>SpaceX Starship completes first orbital test flight</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>RBI cuts repo rate to 6.25% — lowest in 3 years</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>India wins Test series against Australia 3-1</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>OpenAI releases GPT-5 with autonomous tool use</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Parliament passes Digital India Bill 2025</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     NEWS SECTION
+═══════════════════════════════════════════════════ -->
+<section class="news-section" id="news">
+  <div class="news-header">
+    <div class="section-eyebrow" style="display:inline-block;background:rgba(173,139,115,.12);color:var(--brown-deep);border-radius:999px;padding:5px 16px;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;">📰 Today's News</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:var(--dark);margin-top:12px;">Verified. Trusted. <span style="color:var(--brown-deep)">Real.</span></h1>
+  </div>
+
+  <div class="news-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+
+      <!-- Bookmarks -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">🔖 Bookmarks</div>
+        <div class="bookmark-item"><span class="bm-pin">📌</span><span class="bm-title">India's GDP grows 7.2% in Q3 2024 — third quarter in a row</span></div>
+        <div class="bookmark-item"><span class="bm-pin">📌</span><span class="bm-title">NASA Artemis mission update — lunar landing timeline revised</span></div>
+        <div class="bookmark-item"><span class="bm-pin">📌</span><span class="bm-title">Budget 2025: Key highlights every student should know</span></div>
+      </div>
+
+      <!-- Categories -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">📂 Categories</div>
+        <div class="cat-list">
+          <button class="cat-btn active" data-cat="All">        <span class="cat-name">🗞️ All News</span>      <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="World">             <span class="cat-name">🌍 World</span>         <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="Sports">            <span class="cat-name">🏏 Sports</span>        <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="Technology">        <span class="cat-name">💻 Technology</span>    <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="Business">          <span class="cat-name">📈 Business</span>      <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="Science">           <span class="cat-name">🔬 Science</span>       <span class="cat-arrow">›</span></button>
+          <button class="cat-btn" data-cat="Entertainment">     <span class="cat-name">🎭 Entertainment</span> <span class="cat-arrow">›</span></button>
+        </div>
+      </div>
+
+      <!-- Quiz promo -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">🧩 Daily Quiz</div>
+        <button class="quiz-promo" data-open-quiz>
+          <div class="quiz-promo-title">Test Your Knowledge</div>
+          <div class="quiz-promo-sub">5 questions · Current Affairs 2025</div>
+          <span class="quiz-promo-btn">Start Quiz →</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="news-main">
+
+      <!-- Greeting + Search -->
+      <div class="greeting-bar">
+        <div class="greeting-text">
+          <div class="greeting-name">Hey, Arjun 👋</div>
+          <div class="greeting-time" id="greetingTime">Good Morning</div>
+        </div>
+        <div class="search-bar" role="search">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input class="search-input" type="text" placeholder="Search news…" aria-label="Search news" />
+        </div>
+      </div>
+
+      <!-- Top 10 slider -->
+      <div class="top10-label">
+        Top Stories <span class="top10-badge">TOP 10</span>
+      </div>
+      <div class="slider-wrap">
+        <div class="slider-track" id="sliderTrack"></div>
+      </div>
+      <div class="slider-controls">
+        <button class="slide-btn" id="slidePrev" aria-label="Previous">‹</button>
+        <button class="slide-btn" id="slideNext" aria-label="Next">›</button>
+      </div>
+
+      <div class="news-divider"></div>
+
+      <!-- Headlines -->
+      <div class="headlines-title">Latest Headlines</div>
+      <div id="headlinesContainer"></div>
+
+      <!-- Show more -->
+      <div class="show-more-wrap">
+        <button class="show-more-btn" id="showMoreBtn">
+          Load More Stories <span class="sm-arrow">↓</span>
+        </button>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-logo">Curio</div>
+      <p class="footer-brand-desc">Fighting misinformation one article at a time. Built for students and curious minds who deserve genuine news.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <ul class="footer-links">
+        <li><a href="news.html">Read News</a></li>
+        <li><a href="#" data-open-quiz>Daily Quiz</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Account</div>
+      <ul class="footer-links">
+        <li><a href="#" data-open-register>Register</a></li>
+        <li><a href="#" data-open-login>Login</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 <strong>Curio</strong> — All rights reserved.</p>
+    <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     ARTICLE MODAL
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="articleModal" role="dialog" aria-modal="true">
+  <div class="article-modal">
+    <div class="article-hero-img" id="articleEmoji">🌏</div>
+    <div class="article-content">
+      <div class="article-cat" id="articleCat">WORLD</div>
+      <h2 class="article-title" id="articleTitle">Article Title</h2>
+      <div class="article-meta">
+        <span class="article-source" id="articleSource">Reuters</span>
+        <span class="article-date" id="articleTime">2h ago</span>
+        <div class="article-valid">
+          <span class="article-valid-label" id="articleScore">✅ ML Validity: 96%</span>
+        </div>
+      </div>
+      <p class="article-body" id="articleBody">Loading…</p>
+      <p class="article-note">📡 Full article sourced via RSS. Analyzed by Curio's ML model and scored for authenticity. Always cross-reference with the original source.</p>
+    </div>
+    <div class="article-close-row">
+      <button class="btn-article-close" onclick="closeArticle()">✕ Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     USER DASHBOARD DRAWER
+═══════════════════════════════════════════════════ -->
+<div class="user-drawer" id="userDrawer" role="complementary" aria-label="User profile">
+  <button class="drawer-close" id="drawerClose" aria-label="Close drawer">✕</button>
+
+  <div class="user-avatar">🦊</div>
+  <div class="user-name">Arjun Sharma</div>
+  <div class="user-email">arjun.sharma@email.com</div>
+
+  <div>
+    <div class="user-detail-row"><span class="ud-key">Phone</span><span class="ud-val">+91 98765 43210</span></div>
+    <div class="user-detail-row"><span class="ud-key">Country</span><span class="ud-val">🇮🇳 India</span></div>
+    <div class="user-detail-row"><span class="ud-key">Category</span><span class="ud-val">Technology, World</span></div>
+    <div class="user-detail-row"><span class="ud-key">Joined</span><span class="ud-val">January 2025</span></div>
+    <div class="user-detail-row"><span class="ud-key">Bookmarks</span><span class="ud-val">3 saved</span></div>
+    <div class="user-detail-row"><span class="ud-key">Quizzes</span><span class="ud-val">7 completed</span></div>
+  </div>
+
+  <button class="btn-edit">✏️ Edit Profile</button>
+  <button class="btn-logout" id="logoutBtn">🚪 Logout</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CHATBOT
+═══════════════════════════════════════════════════ -->
+<button class="chat-bubble" id="chatBubble" aria-label="Open chatbot" aria-expanded="false">💬</button>
+
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="Curio News Summarizer">
+  <div class="chat-head">
+    <div class="chat-avatar">🤖</div>
+    <div>
+      <div class="chat-bot-name">Curio Assistant</div>
+      <div class="chat-bot-status">News Summarizer · Online</div>
+    </div>
+    <button class="chat-head-close" id="chatCloseBtn" aria-label="Close chatbot">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+    <div class="chat-msg bot">Hi! 👋 I'm your Curio Assistant. Paste any news headline and I'll summarize it for you!</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Paste a headline…" aria-label="Chat input" />
+    <button class="chat-send" id="chatSendBtn">Send</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     QUIZ MODAL
+═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="quizOverlay" role="dialog" aria-modal="true" aria-label="Daily Quiz">
+  <div class="quiz-modal">
+    <div class="quiz-close-row">
+      <button class="quiz-close-btn" id="quizCloseBtn" aria-label="Close quiz">✕</button>
+    </div>
+    <div class="quiz-q-num" id="quizQNum">Question 1 of 5</div>
+    <div class="quiz-q-text" id="quizQText">Loading…</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <button class="quiz-next" id="quizNextBtn">Next Question →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     LOGIN MODAL
+═══════════════════════════════════════════════════ -->
+<div class="auth-overlay" id="loginOverlay" role="dialog" aria-modal="true">
+  <div class="auth-modal">
+    <div class="auth-head">
+      <div class="auth-particles" id="loginParticles"></div>
+      <div class="auth-logo">Curio</div>
+      <div class="auth-tagline">Know the truth before you share</div>
+      <button class="auth-close" onclick="closeModal('loginOverlay')">✕</button>
+    </div>
+    <div class="auth-body">
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-sub">Sign in to your Curio account</p>
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email or Username</label>
+          <input class="form-input" id="loginEmail" type="text" placeholder="john@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPass">Password</label>
+          <input class="form-input" id="loginPass" type="password" placeholder="••••••••" required />
+        </div>
+        <div class="auth-forgot"><a href="#">Forgot password?</a></div>
+        <button type="submit" class="btn-auth">Sign In →</button>
+      </form>
+      <div class="auth-or">or continue with</div>
+      <button class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+      <p class="auth-switch">Don't have an account? <a onclick="switchToRegister()">Register free</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="auth-overlay" id="registerOverlay" role="dialog" aria-modal="true">
+  <div class="auth-modal">
+    <div class="auth-head">
+      <div class="auth-particles" id="regParticles"></div>
+      <div class="auth-logo">Curio</div>
+      <div class="auth-tagline">Join the truth movement</div>
+      <button class="auth-close" onclick="closeModal('registerOverlay')">✕</button>
+    </div>
+    <div class="auth-body">
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-sub">Start reading verified news — it's free</p>
+      <form id="registerForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regName">Full Name</label>
+            <input class="form-input" id="regName" type="text" placeholder="Arjun Sharma" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regPhone">Phone Number</label>
+            <input class="form-input" id="regPhone" type="tel" placeholder="+91 98765 43210" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email Address</label>
+          <input class="form-input" id="regEmail" type="email" placeholder="john@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPass">Password</label>
+          <input class="form-input" id="regPass" type="password" placeholder="Create a strong password" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regCat">News Category</label>
+            <select class="form-select" id="regCat">
+              <option value="">Select preference</option>
+              <option>🌍 World News</option><option>💻 Technology</option>
+              <option>🏏 Sports</option><option>📈 Business</option>
+              <option>🔬 Science</option><option>🎭 Entertainment</option>
+              <option>🏛️ Politics</option><option>🌱 Environment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regCountry">Country</label>
+            <select class="form-select" id="regCountry">
+              <option value="">Select country</option>
+              <option>🇮🇳 India</option><option>🇺🇸 United States</option>
+              <option>🇬🇧 United Kingdom</option><option>🇨🇦 Canada</option>
+              <option>🇦🇺 Australia</option><option>🇩🇪 Germany</option>
+              <option>🇧🇷 Brazil</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth">Create My Account →</button>
+      </form>
+      <div class="auth-or">or sign up with</div>
+      <button class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+      <p class="auth-switch">Already have an account? <a onclick="switchToLogin()">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="../js/main.js"></script>
+<script src="../js/news.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/ui.js"></script>
+</body>
+</html>

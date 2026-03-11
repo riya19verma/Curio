@@ -1,0 +1,61 @@
+/* ============================================================
+   CURIO — footer.css
+   ============================================================ */
+
+.site-footer {
+  background: var(--dark);
+  color: rgba(255,251,233,.65);
+  padding: 56px 48px 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto 48px;
+}
+
+.footer-brand-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 900;
+  color: var(--brown-mid); letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: .84rem; line-height: 1.7;
+  color: rgba(255,251,233,.5); max-width: 240px;
+}
+
+.footer-col-title {
+  font-size: .76rem; font-weight: 800;
+  color: var(--brown-mid); text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 16px;
+}
+.footer-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-links a {
+  font-size: .84rem; color: rgba(255,251,233,.5);
+  transition: color var(--t-base);
+}
+.footer-links a:hover { color: var(--brown-mid); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,251,233,.08);
+  padding-top: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1200px; margin: 0 auto;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-copy  { font-size: .78rem; }
+.footer-copy strong { color: var(--brown-mid); }
+.footer-legal { display: flex; gap: 20px; }
+.footer-legal a { font-size: .78rem; color: rgba(255,251,233,.4); transition: color var(--t-base); }
+.footer-legal a:hover { color: var(--brown-mid); }
+
+@media(max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .site-footer { padding: 40px 24px 24px; }
+}
+@media(max-width: 540px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
