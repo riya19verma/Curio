@@ -1,12 +1,10 @@
-// ============================================================
-// CURIO — ui.js
+
 // User dashboard drawer, Chatbot UI, Quiz UI
 // Everything is UI-only — no backend connected yet
-// ============================================================
 
-/* ============================================================
-   USER DASHBOARD DRAWER
-   ============================================================ */
+
+   // USER DASHBOARD DRAWER
+   
 function toggleDashboard() {
   const drawer = document.getElementById('userDrawer');
   if (!drawer) return;
@@ -19,9 +17,7 @@ function closeDashboard() {
   document.body.style.overflow = '';
 }
 
-/* ============================================================
-   CHATBOT (UI only — responses are placeholders)
-   ============================================================ */
+   // CHATBOT (UI only — responses are placeholders)
 let chatOpen = false;
 
 function toggleChat() {
@@ -67,9 +63,7 @@ function sendChat() {
   }, 900);
 }
 
-/* ============================================================
-   QUIZ (UI only — questions hardcoded, no scoring saved)
-   ============================================================ */
+   // QUIZ (UI only — questions hardcoded, no scoring saved)
 const QUIZ = [
   { q:'Which country hosted the G20 Summit in 2023?',                              opts:['Japan','India','Brazil','USA'],                                             ans:1 },
   { q:'What does "ISRO" stand for?',                                               opts:['Indian Space Research Organization','International Space Rover Observatory','Indian Scientific Research Office','Institute for Space and Robotics'], ans:0 },
@@ -128,9 +122,7 @@ function nextQuestion() {
   renderQuestion();
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
+
 document.addEventListener('DOMContentLoaded', () => {
   // Dashboard
   document.getElementById('avatarBtn')?.addEventListener('click', toggleDashboard);
