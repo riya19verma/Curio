@@ -1,7 +1,5 @@
-/* ============================================================
-   CURIO — news.css
-   Main news page: sidebar + top-10 slider + headlines
-   ============================================================ */
+
+   /* Main news page: sidebar + top-10 slider + headlines */
 
 /* ── Section wrapper ─────────────────────────────── */
 .news-section { background:var(--cream); padding:80px 0 80px; }
