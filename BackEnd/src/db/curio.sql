@@ -20,7 +20,11 @@ CREATE TABLE users(
 	ph_no varchar(10),
 	pass_hashed text Not Null,
 	country varchar(20),
-	refreshToken text
+	refreshToken text,
+	email text,
+	google_id text,
+	created_at timestamptz Not Null Default NOW(),
+	avatar text
 );
 select* from users;
 

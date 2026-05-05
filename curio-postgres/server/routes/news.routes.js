@@ -92,6 +92,123 @@ router.post('/bookmark/:id', authMiddleware, async (req, res) => {
   }
 });
 
+
+// ─────────────────────────────────────────────
+// POST /api/news/click
+// Log a news article click for the logged-in user.
+// Body: { nid }  — the UUID of the news article in the `news` table.
+// ─────────────────────────────────────────────
+router.post('/click', authMiddleware, async (req, res) => {
+  const uid = req.user.id;
+  const { nid } = req.body;
+ 
+  if (!nid) return res.status(400).json({ message: 'nid is required' });
+ 
+  let client;
+  try {
+    client = await pool.connect();
+ 
+    // Verify the article exists before inserting (avoids FK violation)
+    const exists = await client.query(
+      `SELECT 1 FROM news WHERE nid = $1`,
+      [nid]
+    );
+    if (exists.rows.length === 0) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
+ 
+    await client.query(
+      `INSERT INTO user_clicks (uid, nid) VALUES ($1, $2)`,
+      [uid, nid]
+    );
+ 
+    return res.json({ message: 'Click logged' });
+ 
+  } catch (err) {
+    console.error('Click log error:', err);
+    res.status(500).json({ message: 'Server error' });
+  } finally {
+    if (client) client.release();
+  }
+});
+ 
+// ─────────────────────────────────────────────
+// POST /api/news/flush-clicks
+// Called on page load for logged-in users.
+// Reads all unprocessed clicks from the last session, forwards
+// them to the BackEnd (port 3000) to update the user embedding,
+// then clears those click records.
+// ─────────────────────────────────────────────
+router.post('/flush-clicks', authMiddleware, async (req, res) => {
+  const uid = req.user.id;
+ 
+  // Nothing to do if BackEnd secret is not configured
+  const backendSecret = process.env.BACKEND_JWT_SECRET;
+  if (!backendSecret) {
+    return res.status(503).json({ message: 'BACKEND_JWT_SECRET not set' });
+  }
+ 
+  let client;
+  try {
+    client = await pool.connect();
+ 
+    // Fetch all recorded clicks for this user
+    const clickResult = await client.query(
+      `SELECT nid FROM user_clicks WHERE uid = $1 ORDER BY clicked_at ASC`,
+      [uid]
+    );
+ 
+    const clicks = clickResult.rows; // [{ nid }, ...]
+ 
+    if (clicks.length === 0) {
+      return res.json({ message: 'No clicks to flush', flushed: 0 });
+    }
+ 
+    // Build a short-lived token that the BackEnd can verify
+    const backendToken = jwt.sign(
+      { uid },
+      backendSecret,
+      { expiresIn: '1m' }
+    );
+ 
+    // Call BackEnd /api/user/embedding/update
+    const response = await fetch('http://localhost:3000/api/user/embedding/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${backendToken}`
+      },
+      body: JSON.stringify({ uid, news: clicks }) // clicks = [{ nid }, ...]
+    });
+ 
+    // Even if the embedding update fails we still clear clicks to avoid
+    // sending the same clicks again on the next reload.
+    await client.query(
+      `DELETE FROM user_clicks WHERE uid = $1`,
+      [uid]
+    );
+ 
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      console.warn('Embedding update failed:', errData.message);
+      // Return partial success — clicks are cleared but embedding may be stale
+      return res.status(207).json({
+        message: 'Clicks cleared but embedding update failed',
+        flushed: clicks.length,
+        embeddingError: errData.message
+      });
+    }
+ 
+    return res.json({ message: 'Clicks flushed and embedding updated', flushed: clicks.length });
+ 
+  } catch (err) {
+    console.error('Flush-clicks error:', err);
+    res.status(500).json({ message: 'Server error' });
+  } finally {
+    if (client) client.release();
+  }
+});
+
 // GET /api/news/headlines
 router.get('/headlines', async (req, res) => {
   console.log("Fetching headlines...");

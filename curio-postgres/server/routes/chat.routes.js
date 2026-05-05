@@ -1,9 +1,7 @@
 import express from 'express';
+import { DUMMY_NEWS } from './news.routes.js';
 
 const router = express.Router();
-
-// Replace this with your actual import if needed
-import { DUMMY_NEWS } from './news.routes.js';
 
 const SYSTEM_PROMPT = `You are Curio AI, a smart news assistant embedded in the Curio fact-checking platform.
 
@@ -26,79 +24,70 @@ Rules:
 - Never hallucinate
 - Plain text only`;
 
-
-// POST /api/chat
 router.post('/', async (req, res) => {
   const { message, history = [] } = req.body;
 
-  // 🔴 Basic validation
   if (!message || typeof message !== 'string' || !message.trim()) {
     return res.status(400).json({ message: 'Message is required' });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
-  if (!apiKey || apiKey === 'your_gemini_api_key') {
+  if (!apiKey || apiKey === 'your_groq_api_key') {
     return res.status(503).json({
-      message: 'AI not configured. Add GEMINI_API_KEY to .env'
+      message: 'AI not configured. Add GROQ_API_KEY to .env'
     });
   }
 
   try {
-    // ✅ Clean & validate history
+    // ✅ Groq/OpenAI format: role is 'user'/'assistant', field is 'content'
     const safeHistory = Array.isArray(history)
       ? history
           .slice(-10)
           .filter(h => h.role && h.content)
           .map(h => ({
-            role: h.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: String(h.content) }]
+            role: h.role === 'assistant' ? 'assistant' : 'user', // ✅ was 'model'
+            content: String(h.content),                          // ✅ was parts: [{text}]
           }))
       : [];
 
-    const contents = [
+    // ✅ Named 'messages' to match what fetch body expects
+    const messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
       ...safeHistory,
-      {
-        role: 'user',
-        parts: [{ text: message.trim() }]
-      }
+      { role: 'user', content: message.trim() },
     ];
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents,
-          systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT }]
-          },
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 512
-          }
-        })
-      }
-    );
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages, // ✅ now defined
+        max_tokens: 512,
+        temperature: 0.7,
+      }),
+    });
 
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
-      throw new Error(err.error?.message || `Gemini API error ${response.status}`);
+      throw new Error(err.error?.message || `Groq API error ${response.status}`);
     }
 
     const data = await response.json();
 
-    // 🔴 Safe extraction (Gemini responses can be messy)
+    // ✅ Groq returns .content not .text
     const reply =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      data?.choices?.[0]?.message?.content ||
       'Sorry, I could not generate a response.';
 
-    // ✅ Updated history (clean format)
     const updatedHistory = [
       ...history.slice(-10),
       { role: 'user', content: message.trim() },
-      { role: 'assistant', content: reply }
+      { role: 'assistant', content: reply },
     ];
 
     return res.json({ reply, history: updatedHistory });
