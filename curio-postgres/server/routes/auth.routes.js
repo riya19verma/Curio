@@ -103,11 +103,11 @@ router.post('/login', async (req, res) => {
 
     const user = result.rows[0];
 
-    if (!user || !user.password) {
+    if (!user || !user.pass_hashed) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.pass_hashed);
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
@@ -116,8 +116,8 @@ router.post('/login', async (req, res) => {
     return res.json({
       token: sign(user),
       user: {
-        id: user.id,
-        name: user.name,
+        id: user.uid,
+        name: user.uname,
         email: user.email
       }
     });

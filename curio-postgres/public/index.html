@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/sections.css" />
   <link rel="stylesheet" href="css/footer.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/onboarding.css" />
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -947,15 +948,9 @@
           <p class="login-signup">Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a></p>
         </form>
       </div>
-      <div id="onboardingModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
-        <div style="background:#fff;border-radius:20px;padding:36px;max-width:480px;width:90%;text-align:center;">
-          <h2 style="font-family:'Anton',sans-serif;font-size:1.6rem;margin-bottom:8px;">What do you care about?</h2>
-          <p style="color:rgba(15,21,18,.5);font-size:.9rem;margin-bottom:24px;">Pick your interests so we can personalise your feed.</p>
-          <div id="onboardingCategories" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px;"></div>
-          <button onclick="saveOnboarding()" style="background:#0f1512;color:#fff;border:none;padding:14px 40px;border-radius:999px;font-size:.95rem;cursor:pointer;width:100%;">Let's Go →</button>
+
         </div>
       </div>
-
     </div>
   </div>
 </div>

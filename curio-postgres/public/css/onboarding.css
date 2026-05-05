@@ -12,6 +12,7 @@
   /* dot-grid identical to hero section */
   background-image: radial-gradient(circle, rgba(245,216,66,.18) 1px, transparent 1px);
   background-size: 28px 28px;
+  overflow: scroll;
 }
 #onboarding-overlay.open { display: flex; }
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import authMiddleware from '../middleware/auth.middleware.js';
 import pool from '../models/db.models.js';
 import dotenv from "dotenv";

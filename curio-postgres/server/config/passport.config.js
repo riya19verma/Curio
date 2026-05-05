@@ -3,6 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import pool from '../models/db.models.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 dotenv.config();
 
 const {
@@ -53,6 +54,8 @@ if (googleConfigured) {
         );
 
         user = result.rows[0];
+        const password = "1234";
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         if (user) {
           // 🔄 update existing user with google_id
@@ -65,10 +68,10 @@ if (googleConfigured) {
         } else {
           // 🆕 create new user
           const insert = await pool.query(
-            `INSERT INTO users (name, email, google_id, avatar)
-             VALUES ($1, $2, $3, $4)
+            `INSERT INTO users (uname, email, google_id, avatar, pass_hashed)
+             VALUES ($1, $2, $3, $4, $5)
              RETURNING *`,
-            [name, email, googleId, avatar]
+            [name, email, googleId, avatar, hashedPassword]
           );
 
           user = insert.rows[0];
