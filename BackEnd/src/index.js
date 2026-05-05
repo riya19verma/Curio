@@ -6,6 +6,7 @@ import {startNewsCron} from "./services/cron.services.js";
 import recommend from "./routes/recommendation.route.js";
 import analyze_url from "./routes/analyze_url.route.js";
 import user from "./routes/user.route.js";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const app = express();
 

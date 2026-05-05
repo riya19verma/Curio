@@ -8,6 +8,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pool from './models/db.models.js';
 import headlines from './routes/news.routes.js';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -61,10 +62,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 import authRoutes from './routes/auth.routes.js';
 import newsRoutes from './routes/news.routes.js';
 import chatRoutes from './routes/chat.routes.js';
+import userRoutes from './routes/user.routes.js';   // ← NEW
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/user', userRoutes);                   // ← NEW  e.g. POST /api/user/preferences
+
 
 app.get('/api/health', (_, res) => {
   res.json({

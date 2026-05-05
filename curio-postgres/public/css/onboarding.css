@@ -1,0 +1,195 @@
+/* ══════════════════════════════════════════════════════════════════
+   CATEGORY ONBOARDING OVERLAY
+   curio-postgres/public/css/onboarding.css
+══════════════════════════════════════════════════════════════════ */
+
+/* ── Overlay shell ── */
+#onboarding-overlay {
+  position: fixed; inset: 0; z-index: 3000;
+  display: none; align-items: center; justify-content: center;
+  background: var(--charcoal);
+  padding: 24px;
+  /* dot-grid identical to hero section */
+  background-image: radial-gradient(circle, rgba(245,216,66,.18) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+#onboarding-overlay.open { display: flex; }
+
+/* fade-in when opened */
+@keyframes onboardIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.onboard-panel {
+  width: 100%; max-width: 680px;
+  animation: onboardIn .45s cubic-bezier(.22,1,.36,1) both;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+/* ── Progress dots ── */
+.ob-progress {
+  display: flex; gap: 8px; margin-bottom: 36px;
+}
+.ob-dot {
+  width: 28px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,.18);
+  transition: background .3s;
+}
+.ob-dot.active { background: var(--yellow); }
+
+/* ── Heading ── */
+.ob-eyebrow {
+  font-size: .68rem; font-weight: 700; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--yellow);
+  margin-bottom: 12px; text-align: center;
+}
+.ob-headline {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  text-transform: uppercase; line-height: .92;
+  color: var(--white); text-align: center;
+  margin-bottom: 10px;
+}
+.ob-sub {
+  font-size: .9rem; color: rgba(255,255,255,.5);
+  text-align: center; margin-bottom: 40px;
+  max-width: 420px; line-height: 1.6;
+}
+
+/* ── Category grid ── */
+.ob-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px; width: 100%; margin-bottom: 40px;
+}
+
+.ob-chip {
+  position: relative;
+  border: 1.5px solid rgba(255,255,255,.15);
+  border-radius: 16px;
+  padding: 18px 14px 16px;
+  cursor: pointer;
+  background: rgba(255,255,255,.04);
+  text-align: center;
+  transition:
+    border-color .2s,
+    background   .2s,
+    transform    .18s cubic-bezier(.34,1.56,.64,1);
+  -webkit-user-select: none; user-select: none;
+}
+.ob-chip:hover {
+  border-color: rgba(255,255,255,.35);
+  background: rgba(255,255,255,.08);
+  transform: translateY(-3px);
+}
+.ob-chip.selected {
+  border-color: var(--yellow);
+  background: rgba(245,216,66,.12);
+  transform: translateY(-3px);
+}
+
+.ob-chip-emoji {
+  font-size: 1.8rem; display: block; margin-bottom: 8px;
+  /* prevent emoji from being huge on some platforms */
+  line-height: 1;
+}
+.ob-chip-label {
+  font-family: 'Anton', sans-serif;
+  font-size: .8rem; text-transform: uppercase; letter-spacing: .08em;
+  color: rgba(255,255,255,.7);
+  transition: color .2s;
+}
+.ob-chip.selected .ob-chip-label { color: var(--yellow); }
+
+/* tick mark inside chip */
+.ob-chip-tick {
+  position: absolute; top: 10px; right: 10px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--yellow);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(.4);
+  transition: opacity .2s, transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.ob-chip.selected .ob-chip-tick {
+  opacity: 1; transform: scale(1);
+}
+.ob-chip-tick svg { width: 10px; height: 10px; }
+
+/* ── Counter badge ── */
+.ob-counter {
+  font-size: .78rem; color: rgba(255,255,255,.4);
+  margin-bottom: 20px; text-align: center;
+  min-height: 1.2em; transition: color .2s;
+}
+.ob-counter.ready { color: var(--yellow); }
+
+/* ── CTA button ── */
+.ob-btn {
+  width: 100%; max-width: 320px;
+  padding: 16px 0;
+  background: var(--yellow); color: var(--charcoal);
+  border: none; border-radius: 12px;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.05rem; text-transform: uppercase; letter-spacing: .06em;
+  cursor: pointer;
+  transition: filter .2s, transform .15s cubic-bezier(.34,1.56,.64,1), opacity .2s;
+}
+.ob-btn:hover:not(:disabled) { filter: brightness(1.07); transform: scale(1.02); }
+.ob-btn:active:not(:disabled) { transform: scale(.98); }
+.ob-btn:disabled { opacity: .38; cursor: not-allowed; }
+
+/* loading spinner inside button */
+.ob-btn .spinner {
+  display: none; width: 18px; height: 18px;
+  border: 2px solid rgba(15,21,18,.3);
+  border-top-color: var(--charcoal);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto;
+}
+.ob-btn.loading .btn-label { display: none; }
+.ob-btn.loading .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Skip link ── */
+.ob-skip {
+  margin-top: 16px;
+  background: none; border: none; cursor: pointer;
+  font-size: .8rem; color: rgba(255,255,255,.3);
+  text-decoration: underline;
+  transition: color .2s;
+}
+.ob-skip:hover { color: rgba(255,255,255,.6); }
+
+/* ── Error message ── */
+.ob-error {
+  font-size: .82rem; color: #ff7070;
+  margin-top: 12px; min-height: 1em; text-align: center;
+  display: none;
+}
+.ob-error:not(:empty) { display: block; }
+
+/* ── Success screen ── */
+.ob-success {
+  display: none; flex-direction: column; align-items: center;
+  gap: 16px; text-align: center;
+  animation: onboardIn .4s cubic-bezier(.22,1,.36,1) both;
+}
+.ob-success.show { display: flex; }
+.ob-success-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--yellow);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.ob-success-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 2rem; text-transform: uppercase; color: var(--white);
+}
+.ob-success-sub { font-size: .9rem; color: rgba(255,255,255,.5); max-width: 320px; line-height: 1.6; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .ob-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .ob-headline { font-size: 2rem; }
+}
